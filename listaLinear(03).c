@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #define MAX 50
 
 typedef int TIPOCHAVE;
@@ -34,7 +35,7 @@ void exibirLista(LISTA* l)
 	printf("\"\n");
 }
 
-int buscaSequencial(LISTA *l, TIPOCHAVE ch)
+int buscaSequencial(LISTA* l, TIPOCHAVE ch)
 {
 	int i = 0;
 	while (i < l->nroElem)
@@ -46,9 +47,37 @@ int buscaSequencial(LISTA *l, TIPOCHAVE ch)
 	}
 	return -1;
 }
-int main()
-{
 
+bool inserirElemLista(LISTA* l, REGISTRO reg, int i)
+{
+	int j;
+	if((l->nroElem == MAX) || (i < 0) || (i > l->nroElem))
+		return false;
+	for(j = l->nroElem; j > i; j++) l->A[j] = l->A[j - 1];
+	l->A[i] = reg;
+	l->nroElem++;
+	return true;
+}
+
+bool excluirElemLista(TIPOCHAVE ch, LISTA* l){
+	int pos, j;
+	pos = buscaSequencial(l,ch);
+	if(pos == -1){
+		return false;
+	} else{
+		for(j = pos; j < l->nroElem-1; j++){
+			l->A[j] = l->A[j+1];
+		}
+		l->nroElem--;
+		return true;
+	}
+}
+
+void reinicializarLista(LISTA* l){
+	l->nroElem = 0;
+}
+
+int main(){
 	return 0;
 }
-// 12 minutos e 4 segundos
+//LER: https://www.geeksforgeeks.org/clearing-the-input-buffer-in-cc/ --- CLEAR OF BUFFERING;
